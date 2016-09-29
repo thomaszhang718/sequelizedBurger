@@ -2,7 +2,7 @@
 module.exports = function(sequelize, DataTypes) {
   var burger = sequelize.define('burger', {
     burger_name: DataTypes.STRING,
-    devoured: {type:Sequelize.BOOLEAN, defaultValue: false},
+    devoured: {type:DataTypes.BOOLEAN, defaultValue: false},
     date: DataTypes.DATE
   }, {
     classMethods: {

@@ -7,7 +7,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var router = express.Router();
-var burger = require('../models/burger.js');
+var burger = require('../models/')["burger"];
+
 
 //Create a redirect if the route is just the localhost:3000
 router.get('/', function(req,res) {
@@ -19,7 +20,7 @@ router.get('/burgers', function(req,res) {
 
 	burger.findAll({})
 		.then(function(result){
-			var hbsObject = {burgers : data}
+			var hbsObject = {burgers : result}
 			res.render('index', hbsObject);
 		})
 
@@ -32,20 +33,24 @@ router.post('/burgers/create', function(req,res) {
 		burger_name: req.body.burger_name
 	})
 
-	res.redirect('/burgers')
+	res.redirect('/burgers');
 
 });
 
 //Create a route for updating a burger to devoured. We use the updateOne function and change the devoured column to true
 router.put('/burgers/update/:id', function(req,res) {
 	//The condition is the id for the burger we're updating
-	var condition = 'id = ' + req.params.id;
+	var condition = req.params.id;
 
 	burger.update({
 		devoured: req.body.devoured
 	}, {
 		where: {id: condition}
+	}).then(function(result){
+		res.redirect('/burgers');
 	})
+
+	
 
 });
 
